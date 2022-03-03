@@ -8,6 +8,8 @@ public class Gun : MonoBehaviour
     public float range = 100f;
     public float shootForce = 50f;
     public float firerate = 15f;
+    public float radious = 5f;
+    public float force = 500f;
 
     public Camera fpsCam;
     public ParticleSystem flash;
@@ -20,11 +22,15 @@ public class Gun : MonoBehaviour
     public float reloadTime = 1f;
     public Animator reloadingAnimation;
 
+    public GameObject explosionEffext;
+    public bool isExplosionEffext;
+
     private float nextFireTime = 0f;
     private bool isReloading = false;
-    private bool isZoomed = false;
+    internal bool isZoomed = false;
     private float scopedFov = 15f;
     private float normalFov;
+
 
     private void Start()
     {
@@ -62,7 +68,6 @@ public class Gun : MonoBehaviour
             if (isZoomed) StartCoroutine(Scoped());
             else UnScoped();
         }
-       
     }
 
     IEnumerator Scoped()
@@ -74,8 +79,9 @@ public class Gun : MonoBehaviour
         weaponCamera.SetActive(false);
     }
 
-    void UnScoped()
+    public void UnScoped()
     {
+        Debug.Log("UnScoped..!");
         ScopeOverlay.SetActive(false);
         weaponCamera.SetActive(true);
         fpsCam.fieldOfView = normalFov;
@@ -113,7 +119,36 @@ public class Gun : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
-           Target target =  hit.transform.GetComponent<Target>();
+            if (hit.transform.name.Contains("RedBarrel"))
+            {
+                isExplosionEffext = !isExplosionEffext;
+                GameObject go =  Instantiate(explosionEffext, hit.transform.position, hit.transform.rotation);
+
+                Collider[] colliders = Physics.OverlapSphere(hit.transform.position, radious);
+                foreach (Collider nearObj in colliders)
+                {
+                   
+                    Destrutible destb = nearObj.GetComponent<Destrutible>();
+                    if (destb != null)
+                    {
+                        destb.onDestroye();
+                    }
+                }
+
+                Collider[] colliders1 = Physics.OverlapSphere(hit.transform.position, radious);
+                foreach (Collider nearObj in colliders1)
+                {
+                    Rigidbody rb = nearObj.GetComponent<Rigidbody>();
+                    if (rb != null)
+                    {
+                        rb.AddExplosionForce(force, hit.transform.position, radious);
+                    }
+                }
+ 
+                Destroy(go, 3f);
+            }
+
+            Target target =  hit.transform.GetComponent<Target>();
             if (target != null)
             {
                 target.TakeDamage(damage);
@@ -123,7 +158,7 @@ public class Gun : MonoBehaviour
                 hit.rigidbody.AddForce(-hit.normal * shootForce);
             }
 
-           GameObject hitflasheffect = Instantiate(hitFlash, hit.point, Quaternion.LookRotation(hit.normal));
+            GameObject hitflasheffect = Instantiate(hitFlash, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(hitflasheffect, 2f);
         }
     }

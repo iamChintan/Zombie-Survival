@@ -6,6 +6,8 @@ using UnityEngine;
 public class WeaponSwitch : MonoBehaviour
 {
     public int selectedWeapon = 0;
+    string selectedWeaponName = "";
+    public Gun sniperGun;
 
     void Start()
     {
@@ -18,7 +20,9 @@ public class WeaponSwitch : MonoBehaviour
         foreach (Transform item in transform)
         {
             if (i == selectedWeapon)
+            {
                 item.gameObject.SetActive(true);
+            }
             else
                 item.gameObject.SetActive(false);
             i++;
@@ -29,23 +33,41 @@ public class WeaponSwitch : MonoBehaviour
     void Update()
     {
         int previousSelected = selectedWeapon;
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+        if(!sniperGun.isZoomed)
         {
-            if (selectedWeapon >= transform.childCount - 1)
-                selectedWeapon = 0;
-            else
-                selectedWeapon++;
+            if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+            {
+                if (selectedWeapon >= transform.childCount - 1)
+                    selectedWeapon = 0;
+                else
+                    selectedWeapon++;
+            }
+
+            if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+            {
+                if (selectedWeapon <= 0)
+                    selectedWeapon = transform.childCount - 1;
+                else
+                    selectedWeapon--;
+            }
+
         }
 
-        if (Input.GetAxis("Mouse ScrollWheel") < 0f)
-        {
-            if (selectedWeapon <= 0)
-                selectedWeapon = transform.childCount -1;
-            else
-                selectedWeapon--;
-        }
+        selectedWeaponName = transform.GetChild(previousSelected).name;;
 
         if (previousSelected != selectedWeapon)
+        {
+          //  UnScopeZooming();
             selectWeapon();
+        }
+    }
+
+    private void UnScopeZooming()
+    {
+        if (selectedWeaponName != "Sniper" )
+        {
+            Debug.Log("Working " + name);
+            //FindObjectOfType<Gun>().UnScoped();
+        }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Target : MonoBehaviour
 {
@@ -9,14 +10,15 @@ public class Target : MonoBehaviour
     GameObject player;
     NavMeshAgent enemy;
     public Animator animator;
-    
+    bool isZombieDied = false;
 
     public void TakeDamage(float amout)
     {
         health -= amout;
 
-        if (health <= 0)
+        if (health <= 0 && !isZombieDied)
         {
+            isZombieDied = !isZombieDied;
             Die();
             return;
         }
@@ -27,17 +29,18 @@ public class Target : MonoBehaviour
             if (health != 0)
             {
                 animator.SetBool("IsWalking", false);
-
                 animator.SetBool("IsCrawling", true);
             }
-            //Die();
         }
     }
 
     private void Die()
     {
+        GameManager.Instance.UpdateScore();
         animator.SetBool("IsWalking", false);
         animator.SetBool("IsDeath", true);
+        ZombieGenerater.Instance.enemyCount--;
+        ZombieGenerater.Instance.StartCoroutine(ZombieGenerater.Instance.SpawnEnemy());
         Destroy(gameObject, 3f);
     }
 
@@ -47,7 +50,6 @@ public class Target : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         enemy = GetComponent<NavMeshAgent>();
         animator.SetBool("IsWalking", true);
-
     }
 
 
