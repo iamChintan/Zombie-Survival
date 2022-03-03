@@ -23,7 +23,6 @@ public class Gun : MonoBehaviour
     public Animator reloadingAnimation;
 
     public GameObject explosionEffext;
-    public bool isExplosionEffext;
 
     private float nextFireTime = 0f;
     private bool isReloading = false;
@@ -113,17 +112,17 @@ public class Gun : MonoBehaviour
     private void Shoot()
     {
         flash.Play();
-
         currentAmmo--;
 
         RaycastHit hit;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
+            Target target = hit.transform.GetComponent<Target>();
+
             if (hit.transform.name.Contains("RedBarrel"))
             {
-                isExplosionEffext = !isExplosionEffext;
                 GameObject go =  Instantiate(explosionEffext, hit.transform.position, hit.transform.rotation);
-
+                
                 Collider[] colliders = Physics.OverlapSphere(hit.transform.position, radious);
                 foreach (Collider nearObj in colliders)
                 {
@@ -139,16 +138,23 @@ public class Gun : MonoBehaviour
                 foreach (Collider nearObj in colliders1)
                 {
                     Rigidbody rb = nearObj.GetComponent<Rigidbody>();
-                    if (rb != null)
+                    if (rb != null && rb.name.Contains("Zombie"))
                     {
-                        rb.AddExplosionForce(force, hit.transform.position, radious);
+                        target = rb.transform.GetComponent<Target>();
+                        if (target!= null)
+                        {
+                            Debug.Log("BlastDie Calling");
+                            target.BlastDie();
+                        }
+
+                        Vector3 v = new Vector3(force,0,0);
+                        rb.AddForce(v);
                     }
                 }
  
                 Destroy(go, 3f);
             }
 
-            Target target =  hit.transform.GetComponent<Target>();
             if (target != null)
             {
                 target.TakeDamage(damage);

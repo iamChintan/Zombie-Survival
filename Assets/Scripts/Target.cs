@@ -44,6 +44,16 @@ public class Target : MonoBehaviour
         Destroy(gameObject, 3f);
     }
 
+    public void BlastDie()
+    {
+        Debug.Log("BlastDie");
+        GameManager.Instance.UpdateScore();
+        animator.SetBool("IsBlastDying", true);
+        ZombieGenerater.Instance.enemyCount--;
+        ZombieGenerater.Instance.StartCoroutine(ZombieGenerater.Instance.SpawnEnemy());
+        Destroy(gameObject, 3f);
+    }
+
     private void Start()
     {
         health = 100f;

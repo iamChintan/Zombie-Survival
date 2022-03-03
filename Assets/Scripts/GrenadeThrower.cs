@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GrenadeThrower : MonoBehaviour
 {
-    public float throwForce = 40f;
+    public float throwForce = 3f;
     public GameObject granade;
    
     void Update()
@@ -21,5 +21,7 @@ public class GrenadeThrower : MonoBehaviour
        GameObject gb= Instantiate(granade, transform.position, transform.rotation);
         Rigidbody rb = gb.GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * throwForce, ForceMode.VelocityChange);
+        rb.useGravity = true;
+
     }
 }
