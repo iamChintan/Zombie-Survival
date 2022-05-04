@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class GrenadeThrower : MonoBehaviour
 {
-    public float throwForce = 3f;
-    public GameObject granade;
+    [SerializeField] private float throwForce = 3f;
+    [SerializeField] private GameObject granade;
    
     void Update()
     {
@@ -16,12 +16,16 @@ public class GrenadeThrower : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// this method is used to throw granade at particular position
+    /// </summary>
     private void ThrowGrenade()
     {
-       GameObject gb= Instantiate(granade, transform.position, transform.rotation);
+        GameObject gb= Instantiate(granade, transform.position, transform.rotation);
         Rigidbody rb = gb.GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * throwForce, ForceMode.VelocityChange);
         rb.useGravity = true;
+        Destroy(gb, 4f);
 
     }
 }

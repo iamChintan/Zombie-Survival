@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class WeaponSwitch : MonoBehaviour
 {
-    public int selectedWeapon = 0;
+    [SerializeField] private int selectedWeapon = 0;
     string selectedWeaponName = "";
-    public Gun sniperGun;
+    [SerializeField] private Gun sniperGun;
 
     void Start()
     {
@@ -29,7 +29,6 @@ public class WeaponSwitch : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         int previousSelected = selectedWeapon;
@@ -57,17 +56,7 @@ public class WeaponSwitch : MonoBehaviour
 
         if (previousSelected != selectedWeapon)
         {
-          //  UnScopeZooming();
             selectWeapon();
-        }
-    }
-
-    private void UnScopeZooming()
-    {
-        if (selectedWeaponName != "Sniper" )
-        {
-            Debug.Log("Working " + name);
-            //FindObjectOfType<Gun>().UnScoped();
         }
     }
 }

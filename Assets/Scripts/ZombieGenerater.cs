@@ -6,8 +6,8 @@ public class ZombieGenerater : MonoBehaviour
 {
     public static ZombieGenerater Instance;
 
-    public GameObject[] spawnPositions;
-    public GameObject enemy;
+    [SerializeField] private GameObject[] spawnPositions;
+    [SerializeField] private GameObject enemy;
     internal int enemyCount;
     float numOfSpawn = 5;
 
@@ -28,6 +28,11 @@ public class ZombieGenerater : MonoBehaviour
     {
         StartCoroutine(SpawnEnemy());
     }
+
+    /// <summary>
+    /// this Enumerator is used to spawn enemy at random position from predefined positon list
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator SpawnEnemy()
     {
         while (enemyCount < numOfSpawn)

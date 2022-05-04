@@ -18,11 +18,12 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(this);
         }
         else
-        {
             Destroy(this);
-        }
     }
 
+    /// <summary>
+    /// to update the score at score text
+    /// </summary>
     public void UpdateScore()
     {
         score++;

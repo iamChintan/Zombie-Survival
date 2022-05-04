@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7770610266409820893}
   - component: {fileID: 7726116506685852377}
   - component: {fileID: 7666355783064513543}
+  - component: {fileID: 7458276192006248560}
   m_Layer: 0
   m_Name: Grenade
   m_TagString: Untagged
@@ -113,3 +114,24 @@ CapsuleCollider:
   m_Height: 0.21953876
   m_Direction: 1
   m_Center: {x: -0.007204246, y: 0.10976934, z: 0.007920247}
+--- !u!114 &7458276192006248560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7747593508253066867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6521deacdf8ad944adebfbae81b7f1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 3
+  radius: 5
+  force: 700
+  explotion: {fileID: 1000011797152326, guid: acf39d9f4addf294d93fa56fa373961b, type: 3}
+  countDown: 3
+  fpsCam: {fileID: 0}
+  hasExploded: 0
+  range: 100
+  damage: 10

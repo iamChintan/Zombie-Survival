@@ -6,12 +6,16 @@ using UnityEngine.UI;
 
 public class Target : MonoBehaviour
 {
-    public float health = 100f;
-    GameObject player;
-    NavMeshAgent enemy;
-    public Animator animator;
+    [SerializeField] private float health = 100f;
+    [SerializeField] private GameObject player;
+    [SerializeField] private NavMeshAgent enemy;
+    [SerializeField] private Animator animator;
     bool isZombieDied = false;
 
+    /// <summary>
+    /// to damage the enemy, and play animation based on the health percentage
+    /// </summary>
+    /// <param name="amout"> amount defines the scale of the health, power is depends on the guns</param>
     public void TakeDamage(float amout)
     {
         health -= amout;
@@ -75,14 +79,9 @@ public class Target : MonoBehaviour
                 animator.SetBool("IsAttacking", false);
 
             if (enemy.remainingDistance != Mathf.Infinity && enemy.remainingDistance <= 2)
-            {
                 animator.SetBool("IsBitting", true);
-            }
             else
-            {
                 animator.SetBool("IsBitting", false);
-            }
-
         }
     }
 }

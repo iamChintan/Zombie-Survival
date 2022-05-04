@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class Destrutible : MonoBehaviour
 {
-    public GameObject destroyableGO;
+    [SerializeField] private GameObject destroyableGO;
     public void onDestroye()
     {
         Instantiate(destroyableGO, transform.position, transform.rotation);
-
         Destroy(gameObject);
     }
 }
