@@ -1,5 +1,5 @@
 # zombie-survival
-zombie survival is free game developed in the unity using c#
+Zombie Survival is free game developed in the Unity 3D using C#
 
 
 ![Screenshot_56](https://user-images.githubusercontent.com/88285492/166835989-f27734e1-bec3-4ec0-84fe-5cf5d8e752cd.png)
